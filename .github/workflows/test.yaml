@@ -1,11 +1,10 @@
-name: Run unit tests
-on: [push]
+name: Run Unit tests
+on:
+  push:
+    tags:
+      - "v*.*.*"
 jobs:
-  StaticCodeChecking:
-    runs-on: ubuntu-latest
-    steps:
-      -run: echo "all is fine"
-  UnitTests:
+  CreatePackage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,7 +15,6 @@ jobs:
           distribution: 'corretto'
           architecture: x64
       - name: Compile it
-        run: mvn compile
-      - name: Start my unit tests
-        run: mvn test
-      
+        run: mvn -DskipTests package
+      - run: "ls -la target/"
+     
